@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="row">
+    <al-home-feature-card class="col-md-4"
+                          *ngFor="let feature of features"
+                          [title]="feature.title"
+                          [icon]="feature.icon"
+                          [description]="feature.description"></al-home-feature-card>
+  </div>
+</div>
+
+

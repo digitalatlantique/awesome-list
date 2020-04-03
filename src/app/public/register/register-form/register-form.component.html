@@ -1,0 +1,64 @@
+<form class="card-body" [formGroup]="registerForm" (ngSubmit)="submit()" novalidate xmlns="http://www.w3.org/1999/html">
+
+  <!-- User name -->
+  <div class="form-group">
+    <label for="name">Nom</label>
+    <input class="form-control"
+           id="name"
+           type="name"
+           formControlName="name"
+           placeholder="Votre pseudonyme"
+           autocorrect="off"
+           autocomplete="off">
+    <small *ngIf="name.errors && name.dirty" class="form-text text-muted">
+      <span [hidden]="!name.errors.required">Nom requis. </span>
+      <span [hidden]="!name.errors.minlength">Le nom doit faire plus de 4 caractères. </span>
+      <span [hidden]="!name.errors.maxlength">Le nom doit faire moins de 20 caractères. </span>
+      <span [hidden]="!name.errors.pattern">Le nom doit contenir des chiffres, des lettres, '_', '-'. </span>
+    </small>
+  </div>
+  <!-- End User name -->
+
+  <!-- Email -->
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input class="form-control"
+           id="email"
+           type="email"
+           formControlName="email"
+           placeholder="Votre adresse mail"
+           autocorrect="off"
+           autocomplete="off">
+    <small *ngIf="email.errors && email.dirty" class="form-text text-muted">
+      <span [hidden]="!email.errors.required">Adresse mail requise. </span>
+      <span [hidden]="!email.errors.email">Adresse mail invalide. </span>
+    </small>
+  </div>
+  <!-- End email -->
+
+  <!-- Password -->
+  <div class="form-group">
+    <label for="password">Mot de passe</label>
+    <input class="form-control"
+           id="password"
+           type="password"
+           formControlName="password"
+           placeholder="Votre mot de passe">
+    <small *ngIf="password.errors && password.dirty" class="form-text text-muted">
+      <span [hidden]="!password.errors.required">Mot de passe requis </span>
+      <span [hidden]="!password.errors.minlength">Le mot de passe doit faire 6 caractères minimum. </span>
+      <span [hidden]="!password.errors.maxlength">Le mot de passe doit faire 20 caractères maximum. </span>
+    </small>
+  </div>
+  <!-- End password -->
+
+  <!-- Button submit -->
+  <p class="text-center py-3">
+    <button class="btn"
+            type="submit"
+            [ngClass]="{'btn-success': registerForm.valid, 'btn-secondary': registerForm.invalid}"
+            [disabled]="registerForm.invalid">Inscription</button>
+  </p>
+  <!-- End button submit -->
+
+</form>

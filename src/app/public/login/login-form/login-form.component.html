@@ -1,0 +1,45 @@
+<form class="card-body" [formGroup]="loginForm" (ngSubmit)="submit()" novalidate>
+
+  <!-- Email -->
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input class="form-control"
+           id="email"
+           type="email"
+           formControlName="email"
+           placeholder="Votre adresse mail"
+           autocorrect="off"
+           autocomplete="off">
+    <small *ngIf="email.errors && email.dirty" class="form-text text-muted">
+      <span [hidden]="!email.errors.required">Adresse mail requise. </span>
+      <span [hidden]="!email.errors.email">Adresse mail invalide. </span>
+    </small>
+  </div>
+  <!-- End email -->
+
+  <!-- Password -->
+  <div class="form-group">
+    <label for="password">Mot de passe</label>
+    <input class="form-control"
+           id="password"
+           type="password"
+           formControlName="password"
+           placeholder="Votre mot de passe">
+    <small *ngIf="password.errors && password.dirty" class="form-text text-muted">
+      <span [hidden]="!password.errors.required">Mot de passe requis. </span>
+      <span [hidden]="!password.errors.minlength">Le mot de passe doit faire 6 caractères minimum. </span>
+      <span [hidden]="!password.errors.maxlength">Le mot de passe doit faire 20 caractères maximum. </span>
+    </small>
+  </div>
+  <!-- End password -->
+
+  <!-- button submit -->
+  <p class="text-center py-3">
+    <button class="btn"
+            type="submit"
+            [ngClass]="{'btn-success': loginForm.valid, 'btn-secondary': loginForm.invalid}"
+            [disabled]="loginForm.invalid">Connexion</button>
+  </p>
+  <!-- end button submit -->
+
+</form>

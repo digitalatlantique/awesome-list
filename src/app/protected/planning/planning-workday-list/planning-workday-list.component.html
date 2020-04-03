@@ -1,0 +1,11 @@
+<div class="row">
+  <al-planning-workday-item class="col-md-4"
+                            *ngFor="let workday of workdays$ | async"
+                            [dueDate]="workday.dueDate"
+                            [doneTasks]="workday.doneTasks"
+                            [remainingTasks]="workday.remainingTasks"
+                            (workdayRemoved)="onWorkdayRemoved($event)">
+
+  </al-planning-workday-item>
+</div>
+
