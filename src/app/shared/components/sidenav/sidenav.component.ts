@@ -27,4 +27,5 @@ export class SidenavComponent implements OnInit {
   public navigate(page: string): void {
     this.router.navigate([page]);
   }
+
 }

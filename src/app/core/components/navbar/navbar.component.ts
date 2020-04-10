@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import {LayoutService} from '../../services/layout.service';
 
 @Component({
   selector: 'al-navbar',
@@ -12,7 +13,7 @@ export class NavbarComponent implements OnInit {
   public loginPath = 'login';
   public registerPath = 'register';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private layoutService: LayoutService) { }
 
   ngOnInit(): void {
   }
@@ -25,4 +26,7 @@ export class NavbarComponent implements OnInit {
     this.router.navigate([page]);
   }
 
+  public onToggleSidenav() {
+    this.layoutService.toggleSidenav();
+  }
 }
