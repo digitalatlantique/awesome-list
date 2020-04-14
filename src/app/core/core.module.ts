@@ -9,6 +9,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { LoaderComponent } from './components/loader/loader.component';
 import { ToastrComponent } from './components/toastr/toastr.component';
 import {AlertModule} from 'ngx-bootstrap';
+import {HttpClientModule} from '@angular/common/http';
 
 
 
@@ -16,6 +17,7 @@ import {AlertModule} from 'ngx-bootstrap';
   declarations: [NavbarComponent, FooterComponent, PageNotFoundComponent, LoaderComponent, ToastrComponent],
   imports: [
     CommonModule,
+    HttpClientModule,
     PublicModule,
     ProtectedModule,
     BrowserAnimationsModule,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import {AuthService} from '../../../core/services/auth.service';
 
 @Component({
   selector: 'al-register-form',
@@ -11,7 +12,7 @@ export class RegisterFormComponent implements OnInit {
 
   registerForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService) { }
 
   // TODO Ajouter les règles de validation de name et email inexistant Partie 2 chapitre 6 5.3
   ngOnInit(): void {
@@ -35,11 +36,13 @@ export class RegisterFormComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.name.value);
-    console.log(this.email.value);
-    console.log(this.password.value);
 
-    this.router.navigate(['/app/dashboard']);
+    this.authService
+      .register(this.name.value, this.email.value, this.password.value)
+      .subscribe(
+        _ => this.router.navigate(['/app/dashboard']),
+        _ => this.registerForm.reset()
+      );
   }
 
   get name() {
