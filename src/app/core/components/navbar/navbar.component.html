@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand navbar-light bg-light">
 
-  <a class="nav-link text-left" (click)="onToggleSidenav()">
+  <a class="nav-link text-left" *ngIf="user" (click)="onToggleSidenav()">
     <i class="material-icons align-middle">menu</i>
   </a>
 
