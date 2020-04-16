@@ -7,6 +7,7 @@ import {catchError, finalize, switchMap, tap} from 'rxjs/operators';
 import {UsersService} from './users.service';
 import {ErrorService} from './error.service';
 import {LoaderService} from './loader.service';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class AuthService {
   constructor(private httpClient: HttpClient,
               private  usersService: UsersService,
               private errorService: ErrorService,
-              private loaderService: LoaderService) { }
+              private loaderService: LoaderService, private router: Router) { }
 
   public login(pEmail: string, pPassword: string): Observable<User | null> {
 
@@ -38,12 +39,17 @@ export class AuthService {
       headers: new HttpHeaders({'Content-type': 'application/json'})
     };
 
+    this.loaderService.setLoading(true);
+
     return this.httpClient.post<User>(url, data, httpOptions).pipe(
       switchMap((pData: any) => {
         const userId: string = pData.localId;
         const jwt: string = pData.idToken;
         return this.usersService.get(userId, jwt);
-      })
+      }),
+      tap(user => this.user.next(user)),
+      catchError(error => this.errorService.handleError(error)),
+      finalize(() => this.loaderService.setLoading(false))
     );
   }
 
@@ -81,7 +87,8 @@ export class AuthService {
     );
   }
 
-  public logout(): Observable<null> {
-    return of(null);
+  public logout(): void {
+    this.user.next(null);
+    this.router.navigate(['/login']);
   }
 }
