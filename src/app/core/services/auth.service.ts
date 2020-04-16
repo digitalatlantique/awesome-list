@@ -22,19 +22,40 @@ export class AuthService {
               private errorService: ErrorService,
               private loaderService: LoaderService) { }
 
-  public login(email: string, password: string): Observable<User | null> {
-    return of(new User());
+  public login(pEmail: string, pPassword: string): Observable<User | null> {
+
+    const API_KEY: string = environment.firebase.apiKey;
+    const API_AUTH_BASEURL: string = environment.firebase.auth.baseURL;
+    const url = `${API_AUTH_BASEURL}/verifyPassword?key=${API_KEY}`;
+
+    const data = {
+      email: pEmail,
+      password: pPassword,
+      returnSecureToken: true
+    };
+
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-type': 'application/json'})
+    };
+
+    return this.httpClient.post<User>(url, data, httpOptions).pipe(
+      switchMap((pData: any) => {
+        const userId: string = pData.localId;
+        const jwt: string = pData.idToken;
+        return this.usersService.get(userId, jwt);
+      })
+    );
   }
 
-  public register(name: string, email: string, password: string): Observable<User | null> {
+  public register(pName: string, pEmail: string, pPassword: string): Observable<User | null> {
 
     const API_KEY: string = environment.firebase.apiKey;
     const API_AUTH_BASEURL: string = environment.firebase.auth.baseURL;
     const url = `${API_AUTH_BASEURL}/signupNewUser?key=${API_KEY}`;
 
     const data = {
-      email: email,
-      password: password,
+      email: pEmail,
+      password: pPassword,
       returnSecureToken: true
     };
 
@@ -49,7 +70,7 @@ export class AuthService {
         const jwt: string = pData.idToken;
         const user = new User({
           id: pData.localId,
-          name: name,
+          name: pName,
           email: pData.email
         });
         return this.usersService.save(user, jwt);

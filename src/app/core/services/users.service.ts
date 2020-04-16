@@ -12,6 +12,29 @@ export class UsersService {
 
   constructor(private httpClient: HttpClient) { }
 
+  get(userId: string, jwt: string): Observable<User | null> {
+
+    const BASE_URL: string = environment.firebase.firestore.baseURL;
+    const API_KEY: string = environment.firebase.apiKey;
+
+    const url = `${BASE_URL}:runQuery?key=${API_KEY}`;
+
+    const data = this.getStructuredQuery(userId);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${jwt}`
+      })
+    };
+
+    return this.httpClient.post(url, data, httpOptions).pipe(
+      switchMap((pData: any) => {
+        return of(this.getUserFromFirestore(pData[0].document.fields));
+      })
+    );
+  }
+
   save(user: User, jwt: string): Observable<User | null> {
 
     const BASE_URL: string = environment.firebase.firestore.baseURL;
@@ -31,6 +54,24 @@ export class UsersService {
         return of(this.getUserFromFirestore(pData.fields));
       })
     );
+  }
+
+  private getStructuredQuery(userId: string): Object {
+    return {
+      structuredQuery: {
+        from: [{
+          collectionId: 'users'
+        }],
+        where: {
+          fieldFilter: {
+            field: { fieldPath: 'id' },
+            op: 'EQUAL',
+            value: { stringValue: userId }
+          }
+        },
+        limit: 1
+      }
+    };
   }
 
   private getUserFromFirestore(fields): User {

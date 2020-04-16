@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import {AuthService} from '../../../core/services/auth.service';
 
 @Component({
   selector: 'al-login-form',
@@ -11,7 +12,7 @@ export class LoginFormComponent implements OnInit {
 
   loginForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
 
@@ -29,8 +30,10 @@ export class LoginFormComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.email.value + ' ' + this.password.value);
-    this.router.navigate(['/app/dashboard']);
+    this.authService.login(this.email.value, this.password.value).subscribe(
+      _ => this.router.navigate(['/app/dashboard']),
+        _ => this.loginForm.reset()
+    );
   }
 
   get email() {
