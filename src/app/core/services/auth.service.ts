@@ -23,7 +23,8 @@ export class AuthService {
   constructor(private httpClient: HttpClient,
               private  usersService: UsersService,
               private errorService: ErrorService,
-              private loaderService: LoaderService, private router: Router) { }
+              private loaderService: LoaderService,
+              private router: Router) { }
 
   public login(pEmail: string, pPassword: string): Observable<User | null> {
 

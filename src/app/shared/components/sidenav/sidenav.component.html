@@ -5,6 +5,7 @@
          alt="sidenav banner">
     <div class="card-header">Menu</div>
     <ul class="list-group list-group-flush">
+
       <!-- Dashboard -->
       <li class="list-group-item"
           [class.list-group-item-success]="isActive(dashboardPath)"
@@ -13,6 +14,7 @@
         Tableau de bord
       </li>
       <!-- End dashboard -->
+
       <!-- Planning -->
       <li class="list-group-item"
           [class.list-group-item-success]="isActive(planningPath)"
@@ -21,6 +23,7 @@
         Planning
       </li>
       <!-- End planning -->
+
       <!-- Workday -->
       <li class="list-group-item"
           [class.list-group-item-success]="isActive(workdayPath)"
@@ -29,6 +32,7 @@
         Tâche du jour
       </li>
       <!-- End workday -->
+
       <!-- Profil -->
       <li class="list-group-item"
           [class.list-group-item-success]="isActive(profilPath)"
@@ -37,10 +41,12 @@
         Profil
       </li>
       <!-- End profil -->
+
       <!-- Parameters -->
       <li class="list-group-item"
           [class.list-group-item-success]="isActive(parametersPath)"
-          (click)="navigate(parametersPath)">
+          (click)="navigate(parametersPath)"
+          *ngIf="user.hasRole('EMPLOYEE')">
         <i class="material-icons align-bottom mr-1">settings</i>
         Paramètres
       </li>
