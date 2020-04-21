@@ -8,6 +8,7 @@ import {UsersService} from './users.service';
 import {ErrorService} from './error.service';
 import {LoaderService} from './loader.service';
 import {Router} from '@angular/router';
+import {ToastrService} from './toastr.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +22,10 @@ export class AuthService {
   public readonly user$: Observable<User | null> = this.user.asObservable();
 
   constructor(private httpClient: HttpClient,
-              private  usersService: UsersService,
+              private usersService: UsersService,
               private errorService: ErrorService,
               private loaderService: LoaderService,
+              private toastrService: ToastrService,
               private router: Router) { }
 
   public login(pEmail: string, pPassword: string): Observable<User | null> {
@@ -99,7 +101,6 @@ export class AuthService {
     localStorage.removeItem('userId');
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
-
     this.user.next(null);
     this.router.navigate(['/login']);
   }
@@ -107,6 +108,19 @@ export class AuthService {
   public autoLogin(user: User) {
     this.user.next(user);
     this.router.navigate(['app/dashboard']);
+  }
+
+  public updateUserState(pUser: User): Observable<User | null> {
+    this.loaderService.setLoading(true);
+    return this.usersService.update(pUser).pipe(
+      tap(user => this.user.next(user)),
+      tap(_ => this.toastrService.showToastr({
+          category: 'success',
+          message: 'Les modifications sont mises à jour.'
+      })),
+      catchError(error => this.errorService.handleError(error)),
+      finalize(() => this.loaderService.setLoading(false))
+    );
   }
 
   private logoutTimer(expirationTime: number): void {
@@ -121,5 +135,9 @@ export class AuthService {
     localStorage.setItem('expirationDate', expirationDate);
     localStorage.setItem('token', token);
     localStorage.setItem('userId', userId);
+  }
+
+  get currentUser(): User {
+    return this.user.getValue();
   }
 }

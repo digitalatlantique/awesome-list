@@ -14,7 +14,6 @@ export class RegisterFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService) { }
 
-  // TODO Ajouter les règles de validation de name et email inexistant Partie 2 chapitre 6 5.3
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
       name: ['', [

@@ -40,7 +40,7 @@ export class UsersService {
     const BASE_URL: string = environment.firebase.firestore.baseURL;
     const API_KEY: string = environment.firebase.apiKey;
 
-    const url = `${BASE_URL}/users?key=${API_KEY}`;
+    const url = `${BASE_URL}/users?key=${API_KEY}&documentId=${user.id}`;
     const data = this.getDataForFirestore(user);
     const httpOptions = {
       headers: new HttpHeaders({
@@ -50,6 +50,27 @@ export class UsersService {
     };
 
     return this.httpClient.post(url, data, httpOptions).pipe(
+      switchMap((pData: any) => {
+        return of(this.getUserFromFirestore(pData.fields));
+      })
+    );
+  }
+
+  update(user: User): Observable<User | null> {
+    const BASE_URL: string = environment.firebase.firestore.baseURL;
+    const API_KEY: string = environment.firebase.apiKey;
+    const data = this.getDataForFirestore(user);
+    const url = `${BASE_URL}/users/${user.id}?key=${API_KEY}&currentDocument.exists=true`;
+    const jwt = localStorage.getItem('token');
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwt}`
+      })
+    };
+
+    return this.httpClient.patch(url, data, httpOptions).pipe(
       switchMap((pData: any) => {
         return of(this.getUserFromFirestore(pData.fields));
       })
