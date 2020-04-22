@@ -25,10 +25,10 @@ export class WorkdayFormComponent implements OnInit {
       dueDate: ['', [
         Validators.required
       ]],
-      tasks: [this.formBuilder.array([]), [
+      tasks: this.formBuilder.array([], [
         Validators.required,
         Validators.maxLength(6)
-      ]],
+      ]),
       notes: ['', [
         Validators.maxLength(1000)
       ]]
