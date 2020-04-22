@@ -14,7 +14,6 @@ export class WorkdayFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.workdayForm = this.createWorkdayForm();
-
   }
 
   submit() {

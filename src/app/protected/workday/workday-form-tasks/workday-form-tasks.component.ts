@@ -37,7 +37,6 @@ export class WorkdayFormTasksComponent implements OnInit {
   }
 
   onAddedTask() {
-
     const task = this.createTaskForm();
     this.tasks.push(task);
   }
