@@ -27,7 +27,7 @@ export class WorkdaysService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        Autorization: `Bearer ${jwt}`
+        Authorization: `Bearer ${jwt}`
       })
     };
 
