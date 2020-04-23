@@ -3,8 +3,25 @@
     <input class="form-control" type="text" formControlName="title">
   </div>
   <div class="col-sm-5">
+
+    <!-- Pomodoros -->
+    <div class="py-2 mb-0" dropdown>
+      <input class="text-center mb-3 mr-1 pomodoro-input"
+             formControlName="todo"
+             aria-controls="dropdown-todo"
+             dropdownToggle />
+      <ul class="dropdown-menu" id="dropdown-todo" *dropdownMenu role="menu" aria-labelledby="button-basic">
+        <li role="menuitem" *ngFor="let todo of todoNumber">
+          <span class="dropdown-item" (click)="selectTodo(todo)">{{todo}}</span>
+        </li>
+      </ul>
+    </div>
+    <!-- End pomodoros -->
+
+    <!-- Clear -->
     <span *ngIf="isLast && !isFirst" (click)="removeTask(index)">
       <i class="material-icons md-18 md-grey align-middle">clear</i>
     </span>
+    <!-- End clear -->
   </div>
 </div>
