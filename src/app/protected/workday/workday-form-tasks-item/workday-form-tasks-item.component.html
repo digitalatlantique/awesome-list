@@ -1,4 +1,11 @@
 <div class="form-group row" [formGroup]="task">
+
+  <legend *ngIf="isFirst">Tâche la plus importante</legend>
+  <legend *ngIf="index === 1">Tâches de seconde importance</legend>
+  <legend *ngIf="index === 3">Tâches additionnelles</legend>
+
+  <label for="taskIndex" class="col-sm-1 col-form-label px-0">{{index + 1}}.</label>
+
   <div class="col-sm-6 px-0">
     <input class="form-control" type="text" formControlName="title">
   </div>
