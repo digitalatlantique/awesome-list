@@ -12,13 +12,13 @@ export class Workday {
     id?: string,
     notes?: string,
     dueDate?: number,
-    task?: Task[],
+    tasks?: Task[],
     userId: string
   }) {
     this.id = options.id || '';
     this.notes = options.notes || '';
     this.dueDate = options.dueDate || 0;
-    this.tasks = options.task || [new Task()];
+    this.tasks = options.tasks || [new Task()];
     this.userId = options.userId;
   }
 

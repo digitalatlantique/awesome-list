@@ -4,6 +4,7 @@ import {WorkdaysService} from '../../../core/services/workdays.service';
 import {Workday} from '../../../shared/models/workday';
 import {Task} from '../../../shared/models/task';
 import {Router} from '@angular/router';
+import {AuthService} from '../../../core/services/auth.service';
 
 @Component({
   selector: 'al-workday-form',
@@ -16,24 +17,23 @@ export class WorkdayFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private workdayService: WorkdaysService,
-              private router: Router) { }
+              private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.workdayForm = this.createWorkdayForm();
   }
 
-  submit() {
+  submit(): void {
 
-    const workday = new Workday({
-      notes: this.notes.value,
-      dueDate: this.dueDate.value,
-      task: this.tasks.value,
-      userId: localStorage.getItem('userId')
-    });
+    const cUserId: string = this.authService.currentUser.id;
+
+    const workday = new Workday({...{userId: cUserId}, ...this.workdayForm.value});
     this.workdayService.save(workday).subscribe(
-      _ => this.router.navigate(['/app/dashboard']),
+      _ => this.router.navigate(['/app/planning']),
       _ => this.workdayForm.reset()
     );
+
+    console.log(this.workdayForm.value);
   }
 
   createWorkdayForm(): FormGroup {
