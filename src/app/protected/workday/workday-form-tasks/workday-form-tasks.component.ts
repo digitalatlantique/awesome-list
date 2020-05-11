@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ToastrService} from '../../../core/services/toastr.service';
 
 @Component({
   selector: 'al-workday-form-tasks',
@@ -14,7 +15,7 @@ export class WorkdayFormTasksComponent implements OnInit {
   @Input()
   workdayForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private toastrService: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -37,8 +38,9 @@ export class WorkdayFormTasksComponent implements OnInit {
   }
 
   onAddedTask() {
-    const task = this.createTaskForm();
-    this.tasks.push(task);
+
+      const task = this.createTaskForm();
+      this.tasks.push(task);
   }
 
   onRemovedTask(index: number) {

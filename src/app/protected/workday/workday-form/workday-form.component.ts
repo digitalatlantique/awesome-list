@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {WorkdaysService} from '../../../core/services/workdays.service';
 import {Workday} from '../../../shared/models/workday';
 import {Task} from '../../../shared/models/task';
@@ -35,7 +35,7 @@ export class WorkdayFormComponent implements OnInit {
 
     console.log(this.workdayForm.value);
   }
-
+  // TODO limiter le nombre de tâche à 6
   createWorkdayForm(): FormGroup {
     return this.formBuilder.group({
       dueDate: ['', [
@@ -43,7 +43,7 @@ export class WorkdayFormComponent implements OnInit {
       ]],
       tasks: this.formBuilder.array([], [
         Validators.required,
-        Validators.maxLength(6)
+        Validators.maxLength(20)
       ]),
       notes: ['', [
         Validators.maxLength(1000)
