@@ -4,6 +4,7 @@
       <div class="form-group">
         <label class="mr-3">Date:</label>
         <input bsDatepicker
+               (bsValueChange)="selectDate($event)"
                class="form-control form-control-sm align-middle"
                type="text"
                [formControl]="dueDate"

@@ -72,7 +72,7 @@ export class WorkdaysService {
 
   }
 
-  private getStructuredQuery(date: string): Object {
+  private getStructuredQuery(date: string): any {
     return {
       structuredQuery: {
         from: [{
@@ -90,11 +90,11 @@ export class WorkdaysService {
     };
   }
 
-  private getWorkdayForFirestore(workday: Workday): Object {
+  private getWorkdayForFirestore(workday: Workday): any {
 
     const date: number = new Date(workday.dueDate).getTime();
     const cDisplayDate: string = this.dateService.getDisplayDate(new Date(workday.dueDate));
-    const cTasks: Object = this.getTaskListForFirestore(workday.tasks);
+    const cTasks: any = this.getTaskListForFirestore(workday.tasks);
 
     return {
       fields: {
@@ -133,7 +133,7 @@ export class WorkdaysService {
     });
   }
 
-  private getTaskListForFirestore(tasks: Task[]): Object {
+  private getTaskListForFirestore(tasks: Task[]): any {
     const taskList = {
       arrayValue: {
         values: []
@@ -145,7 +145,7 @@ export class WorkdaysService {
     return taskList;
   }
 
-  private getTaskForFirestore(task: Task): Object {
+  private getTaskForFirestore(task: Task): any {
     return {
       mapValue: {
         fields: {

@@ -51,6 +51,34 @@ export class WorkdayFormComponent implements OnInit {
     });
   }
 
+  onDateSelected(displayDate: string) {
+    this.workdayService.getWorkdayByDate(displayDate).subscribe(workday => {
+      this.resetWorkdayForm();
+      if (workday) {
+        this.fillInForm(workday);
+      }
+    });
+  }
+
+  fillInForm(workday: Workday) {
+    this.notes.setValue(workday.notes);
+    workday.tasks.forEach(task => {
+      const taskField: FormGroup = this.formBuilder.group({
+        title: task.title,
+        todo: task.todo,
+        done: task.done
+      });
+      this.tasks.push(taskField);
+    });
+  }
+
+  resetWorkdayForm() {
+    while (this.tasks.length !== 0) {
+      this.tasks.removeAt(0);
+    }
+    this.notes.reset();
+  }
+
   get dueDate() {
     return this.workdayForm.get('dueDate');
   }
