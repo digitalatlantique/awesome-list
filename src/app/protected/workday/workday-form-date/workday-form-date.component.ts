@@ -16,15 +16,19 @@ export class WorkdayFormDateComponent implements OnInit {
   @Output()
   dateSelected = new EventEmitter<string>();
 
-  constructor(private localeService: BsLocaleService, private dateService: DateService) { }
+  constructor(private localeService: BsLocaleService,
+              private dateService: DateService) { }
 
   ngOnInit(): void {
     this.localeService.use('fr');
   }
 
   selectDate(date: Date = new Date()): void {
-    const displayDate: string = this.dateService.getDisplayDate(date);
-    this.dateSelected.emit(displayDate);
+
+    if (date) {
+      const displayDate: string = this.dateService.getDisplayDate(date);
+      this.dateSelected.emit(displayDate);
+    }
   }
 
 }

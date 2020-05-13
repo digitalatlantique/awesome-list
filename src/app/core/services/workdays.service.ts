@@ -49,7 +49,7 @@ export class WorkdaysService {
   update(workday: Workday) {
     const BASE_URL = environment.firebase.firestore.baseURL;
     const API_KEY = environment.firebase.apiKey;
-    const url = `${BASE_URL}/workdays?key=${API_KEY}`;
+    const url = `${BASE_URL}/workdays/${workday.id}?key=${API_KEY}&currentDocument.exists=true`;
     const data = this.getWorkdayForFirestore(workday);
     const jwt = localStorage.getItem('token');
     const httpOptions = {

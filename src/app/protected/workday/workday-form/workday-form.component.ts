@@ -14,26 +14,38 @@ import {AuthService} from '../../../core/services/auth.service';
 export class WorkdayFormComponent implements OnInit {
 
   workdayForm: FormGroup;
+  workdayId: string;
 
   constructor(private formBuilder: FormBuilder,
               private workdayService: WorkdaysService,
-              private router: Router, private authService: AuthService) { }
+              private router: Router,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
     this.workdayForm = this.createWorkdayForm();
+    this.workdayId = null;
   }
 
   submit(): void {
 
     const cUserId: string = this.authService.currentUser.id;
 
-    const workday = new Workday({...{userId: cUserId}, ...this.workdayForm.value});
-    this.workdayService.save(workday).subscribe(
-      _ => this.router.navigate(['/app/planning']),
-      _ => this.workdayForm.reset()
-    );
+    if (this.workdayId) {
+      const workday = new Workday({...{id: this.workdayId}, ...{userId: cUserId}, ...this.workdayForm.value});
 
-    console.log(this.workdayForm.value);
+      this.workdayService.update(workday).subscribe(
+        _ => this.router.navigate(['/app/planning']),
+        _ => this.workdayForm.reset()
+      );
+    }
+    else {
+      const workday = new Workday({...{userId: cUserId}, ...this.workdayForm.value});
+      this.workdayService.save(workday).subscribe(
+        _ => this.router.navigate(['/app/planning']),
+        _ => this.workdayForm.reset()
+      );
+    }
+    
   }
   // TODO limiter le nombre de tâche à 6
   createWorkdayForm(): FormGroup {
@@ -55,6 +67,7 @@ export class WorkdayFormComponent implements OnInit {
     this.workdayService.getWorkdayByDate(displayDate).subscribe(workday => {
       this.resetWorkdayForm();
       if (workday) {
+        this.workdayId = workday.id;
         this.fillInForm(workday);
       }
     });
