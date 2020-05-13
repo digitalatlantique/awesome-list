@@ -26,7 +26,7 @@ export class WorkdayFormTasksComponent implements OnInit {
       title: ['', [
         Validators.required,
         Validators.minLength(1),
-        Validators.maxLength(6)
+        Validators.maxLength(30)
       ]],
       todo: [1, [
         Validators.required,

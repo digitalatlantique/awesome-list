@@ -43,7 +43,7 @@ export class WorkdayFormComponent implements OnInit {
       ]],
       tasks: this.formBuilder.array([], [
         Validators.required,
-        Validators.maxLength(20)
+        Validators.maxLength(6)
       ]),
       notes: ['', [
         Validators.maxLength(1000)
