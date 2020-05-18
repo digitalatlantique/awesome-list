@@ -18,20 +18,11 @@ export class PlanningWorkdayListComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.workdays = [
-      { dueDate: 'Lundi', doneTasks: 1, remainingTasks: 3 },
-      { dueDate: 'Mardi', doneTasks: 0, remainingTasks: 2 },
-      { dueDate: 'Mercredi', doneTasks: 1, remainingTasks: 0 }
-    ];
 
-    this.workdays$ = of(this.workdays).pipe(delay(1000));
   }
 
   onWorkdayRemoved(dueDate: string) {
-    this.workdays = this.workdays.filter(workday =>
-      !dueDate.includes(workday.dueDate)
-    );
-    this.workdays$ = of(this.workdays);
+    console.log(dueDate);
   }
 
 }

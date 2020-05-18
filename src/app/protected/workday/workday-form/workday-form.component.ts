@@ -45,7 +45,7 @@ export class WorkdayFormComponent implements OnInit {
         _ => this.workdayForm.reset()
       );
     }
-    
+
   }
   // TODO limiter le nombre de tâche à 6
   createWorkdayForm(): FormGroup {
