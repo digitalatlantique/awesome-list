@@ -85,11 +85,24 @@ export class WorkdaysService {
       })
     };
 
+
+    console.log('userid : ' + userId);
+
+
     return this.httpClient.post(url, data, httpOptions).pipe(
       switchMap((workdaysData: any) => {
+
+
+        console.log('workadaysData : ' + workdaysData);
+
+
         const workdays: Workday[] = [];
         workdaysData.forEach(pData => {
           const workday: Workday = this.getWorkdayFromFirestore(pData.document.name, pData.document.field);
+
+
+
+
           workdays.push(workday);
         })
         return of(workdays);

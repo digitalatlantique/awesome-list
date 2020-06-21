@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {delay} from 'rxjs/operators';
+import {Workday} from '../../../shared/models/workday';
+import {AuthService} from '../../../core/services/auth.service';
+import {WorkdaysService} from '../../../core/services/workdays.service';
 
 @Component({
   selector: 'al-planning-workday-list',
@@ -9,16 +12,16 @@ import {delay} from 'rxjs/operators';
 })
 export class PlanningWorkdayListComponent implements OnInit {
 
-  // TODO gérer subject
-
-  public workdays$;
+  public workdays$: Observable<Workday>;
 
   public workdays;
 
-  constructor() { }
+  constructor(private authService: AuthService,
+              private workdaysService: WorkdaysService) { }
 
   ngOnInit(): void {
-
+    const id: string = this.authService.currentUser.id;
+    this.workdays$ = this.workdaysService.getWorkDayByUser(id);
   }
 
   onWorkdayRemoved(dueDate: string) {
